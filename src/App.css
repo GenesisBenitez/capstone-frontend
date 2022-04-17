@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  color: rgb(29, 104, 173);
 }
 
 .App-logo {
@@ -36,3 +37,22 @@
     transform: rotate(360deg);
   }
 }
+.main-logo{
+  background: linear-gradient(90deg, #ff0000, #ff9100, #ff00f3, #0033ff, #ff00c4, #ff0000);
+  -webkit-text-fill-color: transparent;
+  background-size: 400%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: animate 10s linear infinite;
+}
+
+ @keyframes animate{
+  0%{
+    background-position: 0%;
+  }
+
+  100%{
+    background-position: 400%;
+  }
+} 
