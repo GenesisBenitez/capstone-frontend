@@ -9,11 +9,16 @@ import Nav from './components/Nav';
 import Login from './components/Login';
 import Home from './components/Home';
 import UserPage from './components/users/UserPage';
+import Countries from './components/countries/Countries';
+import Country from './components/countries/Country';
+import Books from './components/books/Books';
 
 function App() {
   const [userId, setUserId] = useState();
   const [username, setUsername] = useState();
   const [loggedIn, setLoggedIn] = useState();
+  const [avatar, setAvatar] = useState();
+
   const getUser = () =>{
     axios.get("http://localhost:8080/getLoggedInUser", {withCredentials: true})
       .then((response)=>{
@@ -21,6 +26,7 @@ function App() {
       setUserId(response.data.userId);
       setUsername(response.data.username);
       setLoggedIn(response.data.loggedIn);
+      setAvatar(response.data.avatar);
       }).catch(function(error){
       console.log(error);
     })
@@ -29,11 +35,14 @@ function App() {
   return (
     <div>
       <Router>
-          <Nav userId={userId} username={username} loggedIn={loggedIn}/>
+          <Nav userId={userId} username={username} loggedIn={loggedIn} avatar={avatar}/>
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/profile/:id" element={<UserPage/>}/>
+            <Route path="/countries" element={<Countries/>}/>
+            <Route path="/country/:id" element={<Country/>}/>
+            <Route path="/books" element={<Books/>}/>
             
           </Routes>
         

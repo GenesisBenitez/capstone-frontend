@@ -1,5 +1,6 @@
 import {useState} from 'react';
-import {SiYourtraveldottv} from 'react-icons/si';
+import {SiGoogleearth} from 'react-icons/si';
+import {GiBlackFlag} from 'react-icons/gi';
 import axios from 'axios';
 
 function Login(){
@@ -21,10 +22,12 @@ function Login(){
         })
     
     }
+
+    const worldIcon = {color: "orange"};
     return(
         <div className="row justify-content-center mt-5" style={loginFormStyle}>
             <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4 border" align="center">
-                <SiYourtraveldottv size={25} className="mt-4"/>
+                <GiBlackFlag size={25} className="mt-4" style={worldIcon}/>
                 <h4 className="lead mt-4">Sign In</h4>
                 <small>to continue </small>
                 Other<span className='main-logo fw-bold'>world</span>ly
