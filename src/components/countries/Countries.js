@@ -1,12 +1,15 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
+import {BsBook} from 'react-icons/bs'
+import {CgFilm} from 'react-icons/cg'
+import {GiBlackBook} from 'react-icons/gi'
 
 function Countries(){
     const [countries, setCountries] = useState([]);
 
     const getCountries = () =>{
-        axios.get(`http://localhost:8080/countries/getAllCountries`, {withCredentials: true})
+        axios.get(`http://localhost:8080/countries/getAllCountryInfo`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
             setCountries(response.data);
@@ -27,7 +30,8 @@ function Countries(){
     }
     const cardStyle={width: "100%", height:"380px"};
     const cardBodyStyle={height:"65%"};
-    const cardCountryNameStyle = {height: "30%"}
+    const cardCountryNameStyle = {height: "30%"};
+    const imageContainerStyle = {background: "white", height: "70px", width:"70px", borderRadius: "50%", overflow: "hidden"};
 
 
     return(
@@ -37,13 +41,13 @@ function Countries(){
                 <small>Explore different countries books, films, history, and user posts</small>
                 <div className='row justify-content-center mt-4' >
                     {countries.map((country, i)=>(
-                    <div className='col-8 col-sm-6 col-md-4 col-lg-4 col-xl-4 mt-3' align='center'>
+                    <div className='col-8 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-' align='center'>
                         
                         <div className="card" style={cardStyle}>
                             <div style={getBannerStyle(country.banner_img)} className="d-flex align-items-end justify-content-center">
-                                <div>
-                                    <img src={country.flag} height="80" width="80" className="rounded-circle"/>
-                                </div>
+                                    <div style={imageContainerStyle} className="d-flex align-items-center justify-content-center" >
+                                        <img src={country.flag} height="40" width="65" />
+                                    </div>
                             </div>
                             <div className="card-body" style={cardBodyStyle}>
                                 <div style={cardCountryNameStyle}>
@@ -54,7 +58,18 @@ function Countries(){
                                     </small>
                                 </div>
                                 <div className='mt-3'>
-                                    <small className='d-block'>55 users</small>
+                                    <div className='row'>
+                                        <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+                                        <small className='d-block mt-2'> <BsBook size={20}/> {country.total_books} </small>
+                                            </div>
+                                            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+                                        <small className='d-block mt-2'><CgFilm size={20}/>{country.total_books}</small>
+                                            </div>
+                                            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+                                        <small className='d-block mt-2'><GiBlackBook size={20}/>{country.total_books}</small>
+                                            </div>
+                                        </div>
+                                    
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ import UserPage from './components/users/UserPage';
 import Countries from './components/countries/Countries';
 import Country from './components/countries/Country';
 import Books from './components/books/Books';
+import Book from './components/books/Book';
 
 function App() {
   const [userId, setUserId] = useState();
@@ -42,7 +43,8 @@ function App() {
             <Route path="/profile/:id" element={<UserPage/>}/>
             <Route path="/countries" element={<Countries/>}/>
             <Route path="/country/:id" element={<Country/>}/>
-            <Route path="/books" element={<Books/>}/>
+            <Route path="/books"  element={<Books userId={userId}/>}/>
+            <Route path="/book/:id" element={<Book userId={userId}/>}/>
             
           </Routes>
         

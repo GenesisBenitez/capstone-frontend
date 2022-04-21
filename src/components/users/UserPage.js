@@ -57,14 +57,11 @@ function getUserRoleIcon(admin){
 function getAdminButtons(admin){
     if(admin == "Y"){
         return  <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-        <div className='row d-flex justify-content-end'>
-        <div className='col-4 col-sm-4 col-md-3 col-lg-3 col-xl-3'>
-            <button className='btn btn-outline-dark' data-bs-toggle="modal" data-bs-target="#addLanguageModal">+ Language</button>
-            </div>
-            <div className='col-4 col-sm-4 col-md-3 col-lg-3 col-xl-3'>
-            <button className='btn btn-outline-dark' data-bs-toggle="modal" data-bs-target="#addCountryModal">+ Country</button>
-            </div>
-           
+        <div className='row d-flex justify-content-end mt-4'>
+            <div className='d-grid gap-2 d-md-flex justify-content-md-end'>
+                <button className='btn btn-outline-dark' data-bs-toggle="modal" data-bs-target="#addLanguageModal">+ Language</button>   
+                <button className='btn btn-outline-dark' data-bs-toggle="modal" data-bs-target="#addCountryModal">+ Country</button>
+            </div>   
         </div>
     </div>
     }

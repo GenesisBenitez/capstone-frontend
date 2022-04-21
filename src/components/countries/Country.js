@@ -10,7 +10,7 @@ function Country(){
     const [country, setCountry] = useState([]);
 
     const getCountry = () =>{
-        axios.get(`http://localhost:8080/countries/getAllCountryInfo/${id}`, {withCredentials: true})
+        axios.get(`http://localhost:8080/countries/getAllCountryInfoById/${id}`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
             setCountry(response.data[0]);
