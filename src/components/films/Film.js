@@ -7,13 +7,14 @@ import {FaRegComment} from 'react-icons/fa';
 import ReactStars from "react-rating-stars-component";
 import StarRatings from 'react-star-ratings';
 import {BiTrash} from 'react-icons/bi'
+import { IoFunnelSharp } from 'react-icons/io5';
 
-function Book({userId}){
+function Film({userId}){
     const {id} = useParams();
 
-    const [book, setBook] = useState([]);
-    const [bookComments, setBookComments] = useState([]);
-    const [bookRatings, setBookRatings] = useState([]);
+    const [film, setFilm] = useState([]);
+    const [filmComments, setFilmComments] = useState([]);
+    const [filmRatings, setFilmRatings] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
 
     //add comment fields
@@ -21,49 +22,49 @@ function Book({userId}){
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState("");
 
-    const getBook = () =>{
-        axios.get(`http://localhost:8080/books/getAllBookInfoById/${id}`, {withCredentials: true})
+    const getFilm = () =>{
+        axios.get(`http://localhost:8080/films/getAllFilmInfoById/${id}`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
-            setBook(response.data[0]);
+            setFilm(response.data[0]);
         }).catch(function(error){
             console.log(error);
         })
     }
-    const getBookComments = () =>{
-        axios.get(`http://localhost:8080/bookComments/getAllCommentsByBookId/${id}`, {withCredentials: true})
+    const getFilmComments = () =>{
+        axios.get(`http://localhost:8080/filmComments/getAllCommentsByFilmId/${id}`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
-            setBookComments(response.data);
+            setFilmComments(response.data);
         }).catch(function(error){
             console.log(error);
         })
     }
-    const getBookRatings = () =>{
-        axios.get(`http://localhost:8080/bookComments/getBookRatingInfoByBookId/${id}`, {withCredentials: true})
+    const getFilmRatings = () =>{
+        axios.get(`http://localhost:8080/filmComments/getFilmRatingInfoByFilmId/${id}`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
-            setBookRatings(response.data[0]);
+            setFilmRatings(response.data[0]);
         }).catch(function(error){
             console.log(error);
         })
     }
     const textareaStyle = {height: "100px"}
 
-    useEffect(()=> getBook(), []);
-    useEffect(()=> getBookComments(), []);
-    useEffect(()=> getBookRatings(), []);
+    useEffect(()=> getFilm(), []);
+    useEffect(()=> getFilmComments(), []);
+    useEffect(()=> getFilmRatings(), []);
 
 
     function getAvgRatingForProgressBar(total_ratings, starRatings){
-        let percentage = (100 * starRatings) / total_ratings;
-        if(isNaN(percentage)){
-            return {width: `0%`}
-
-        }else{
-        return {width: `${percentage}%`}
-        }
-}
+            let percentage = (100 * starRatings) / total_ratings;
+            if(isNaN(percentage)){
+                return {width: `0%`}
+ 
+            }else{
+            return {width: `${percentage}%`}
+            }
+    }
 
     function isPlural(num){
         if(num == 1){
@@ -80,29 +81,29 @@ function Book({userId}){
     }
 
     //handle submit
-    const addBookCommentSubmit = (e) =>{
+    const addFilmCommentSubmit = (e) =>{
         e.preventDefault();
         
         if(userId != undefined){
             setErrorMsg("")
         console.log({
             user_id: userId,
-            book_id: id,
+            film_id: id,
             rating: rating,
             comment: comment
         })
-        axios.post("http://localhost:8080/bookComments/addBookComment", {
+        axios.post("http://localhost:8080/filmComments/addFilmComment", {
             user_id: userId,
-            book_id: id,
+            film_id: id,
             rating: rating,
             comment: comment
         }).then(function(response){
             console.log(response);
-            setBookRatings([]);
-            getBookRatings();
-            setBookComments([]);
-            getBookComments();
-            document.getElementById('closeBookCommentModal').click();
+            setFilmRatings([]);
+            getFilmRatings();
+            setFilmComments([]);
+            getFilmComments();
+            document.getElementById('closeFilmCommentModal').click();
         }).catch(function(error){
             console.log(error);
         })
@@ -112,18 +113,18 @@ function Book({userId}){
     };
 
     let deleteButton;
-    function deleteComment(id, bookId){
+    function deleteComment(id, filmId){
     if(userId != undefined && userId != null){
         if(userId == id){
         deleteButton = <a type='button' 
         onClick={()=>{
-            axios.delete(`http://localhost:8080/bookComments/deleteBookComment/${bookId}`)
+            axios.delete(`http://localhost:8080/filmComments/deleteFilmComment/${filmId}`)
             .then(function(response){
                 console.log(response)
-                setBookComments([]);
-                getBookComments();
-                setBookRatings([]);
-                getBookRatings();
+                setFilmComments([]);
+                getFilmComments();
+                setFilmRatings([]);
+                getFilmRatings();
             })
             .catch(function(error){
                 console.log(error)
@@ -136,13 +137,12 @@ function Book({userId}){
         
     }
 }
-  
 function commentsIsEmpty(){
-    if(bookComments.length == 0){
+    if(filmComments.length == 0){
         return (
         <div className="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-4" align="center">
             <div className="row justify-content-center mt-4">
-            <small>There are no comments for this book.</small>
+            <small>There are no comments for this film.</small>
             </div>
         </div>
         )
@@ -152,12 +152,12 @@ function commentsIsEmpty(){
         <div>
         <div className="row justify-content-center">
             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-                <h4 className="display-6">Books</h4>
-                <small>{book.first_name} {book.last_name}'s <span className='fw-bold'>{book.title}'s</span>.</small>
+                <h4 className="display-6">Films</h4>
+                <small className='fw-bold'>{film.title}'s.</small>
                     <nav aria-label="breadcrumb mt-4">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/books" className='text-decoration-none link-dark'>Books</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{book.title}</li>
+                            <li class="breadcrumb-item"><a href="/books" className='text-decoration-none link-dark'>Films</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{film.title}</li>
                         </ol>
                     </nav>
             </div>
@@ -165,13 +165,13 @@ function commentsIsEmpty(){
             <div className='col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10'>
                 <div className='row justify-content-center mt-4' >
                     <div className='col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 mt-4'>
-                        <small className='lead d-block'>{book.title}</small>
-                        <small className='d-block fw-bold'>{book.first_name} {book.last_name}</small>
-                        <small className='d-block'>{book.description}</small>
-                        <small className='d-block'><GrLanguage/> {book.language}</small>
+                        <small className='lead d-block'>{film.title}</small>
+                        <small className='d-block fw-bold'>{film.first_name} {film.last_name}</small>
+                        <small className='d-block'>{film.description}</small>
+                        <small className='d-block'><GrLanguage/> {film.language}</small>
                     </div>
                     <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 mt-4 mb-4'>
-                        <img src={book.cover} className='w-100 mw-100'/>
+                        <img src={film.poster} className='w-100 mw-100'/>
                     </div>
                 </div>
             </div>
@@ -189,7 +189,7 @@ function commentsIsEmpty(){
                         <div className='row justify-content-center'>
                             <div className='col-4 col-sm-4 col-md-6 col-lg-6 col-xl-6 '>
                             <StarRatings
-                                            rating={bookRatings.avg_rating}
+                                            rating={filmRatings.avg_rating}
                                             starRatedColor='#ffd700'
                                             numberOfStars={5}
                                             name='rating'
@@ -199,15 +199,15 @@ function commentsIsEmpty(){
                                         />
                             </div>
                             <div className='col-8 col-sm-8 col-md-6 col-lg-6 col-xl-6 mt-1'>
-                                <small>{bookRatings.avg_rating} out of 5</small>
+                                <small>{filmRatings.avg_rating} out of 5</small>
                             </div>
                         </div>
-                        <small className='d-block mt-2'>{bookRatings.total_ratings} rating{isPlural(bookRatings.total_ratings)}</small>
+                        <small className='d-block mt-2'>{filmRatings.total_ratings} rating{isPlural(filmRatings.total_ratings)}</small>
                         <div className='row justify-content-center mt-2'>
                             <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 '>
                                 <small>5 star</small>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning" style={getAvgRatingForProgressBar(bookRatings.total_ratings, bookRatings.five_star_ratings)} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning" style={getAvgRatingForProgressBar(filmRatings.total_ratings, filmRatings.five_star_ratings)} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
 
                                     </div>
                                 </div>
@@ -215,7 +215,7 @@ function commentsIsEmpty(){
                             <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 '>
                                 <small>4 star</small>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning " style={getAvgRatingForProgressBar(bookRatings.total_ratings, bookRatings.four_star_ratings)}role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning " style={getAvgRatingForProgressBar(filmRatings.total_ratings, filmRatings.four_star_ratings)}role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
 
                                     </div>
                                 </div>
@@ -223,7 +223,7 @@ function commentsIsEmpty(){
                             <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 '>
                                 <small>3 star</small>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning " style={getAvgRatingForProgressBar(bookRatings.total_ratings, bookRatings.three_star_ratings)}role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning " style={getAvgRatingForProgressBar(filmRatings.total_ratings, filmRatings.three_star_ratings)}role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
 
                                     </div>
                                 </div>
@@ -231,7 +231,7 @@ function commentsIsEmpty(){
                             <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 '>
                                 <small>2 star</small>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning " style={getAvgRatingForProgressBar(bookRatings.total_ratings, bookRatings.two_star_ratings)}role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning " style={getAvgRatingForProgressBar(filmRatings.total_ratings, filmRatings.two_star_ratings)}role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
 
                                     </div>
                                 </div>
@@ -239,7 +239,7 @@ function commentsIsEmpty(){
                             <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 '>
                                 <small>1 star</small>
                                 <div class="progress">
-                                    <div class="progress-bar bg-warning "style={getAvgRatingForProgressBar(bookRatings.total_ratings, bookRatings.one_star_ratings)} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar bg-warning "style={getAvgRatingForProgressBar(filmRatings.total_ratings, filmRatings.one_star_ratings)} role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
 
                                     </div>
                                 </div>
@@ -249,23 +249,23 @@ function commentsIsEmpty(){
                     <div className='col-10 col-sm-10 col-md-8 col-lg-8 col-xl-8 '>
                                 <small className='lead'>Comments</small>
                                 {commentsIsEmpty()}
-                                {bookComments.map((bookComment, i)=>(  
+                                {filmComments.map((filmComment, i)=>(  
                                 <div className='row justify-content-center mt-4'>
                                     <div className='col-2 col-sm-2 col-md-2 col-lg-2 col-xl-1 ' align="center">
-                                        <img src={bookComment.avatar} height="35" width="35" className='rounded-circle'/>
+                                        <img src={filmComment.avatar} height="35" width="35" className='rounded-circle'/>
                                     </div>
                                     <div className='col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8'>
-                                        <p className='fw-bold d-inline'>{bookComment.username} </p>
-                                        <small className='px-2'>{convertTime(bookComment.created_at)}</small>
+                                        <p className='fw-bold d-inline'>{filmComment.username} </p>
+                                        <small className='px-2'>{convertTime(filmComment.created_at)}</small>
                                         <ReactStars
-                                        count={bookComment.rating}
+                                        count={filmComment.rating}
                                         size={18}
                                         color="#ffd700"
                                     />
-                                        <small className='d-block'>{bookComment.comment}</small>
+                                        <small className='d-block'>{filmComment.comment}</small>
                                     </div>
                                     <div className='col-2 col-sm-2 col-md-2 col-lg-2 col-xl-1 ' align="center">
-                                        {deleteComment(bookComment.userId, bookComment.id)}
+                                        {deleteComment(filmComment.userId, filmComment.id)}
                                     </div>
                                 </div>  
                                 ))}        
@@ -284,14 +284,14 @@ function commentsIsEmpty(){
                             <div className="modal-content rounded-5 shadow">
                             <div className="modal-header p-5 pb-4 border-bottom-0">
                                 <h2>Add Comment</h2>
-                                <button type="button" className="btn-close" id='closeBookCommentModal' data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" className="btn-close" id='closeFilmCommentModal' data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div className='px-5 pb-4'>
-                                <small>Read this book? Comment and share your thoughts</small>
+                                <small>Watched this film? Comment and share your thoughts</small>
 
                             </div>
                             <div className="modal-body p-5 pt-0">
-                                <form className="" onSubmit={addBookCommentSubmit}>
+                                <form className="" onSubmit={addFilmCommentSubmit}>
                                 <div className="mb-3">
                                 <label for="floatingInput">Rating</label>
                                 <ReactStars
@@ -322,4 +322,4 @@ function commentsIsEmpty(){
     )
 }
 
-export default Book;
+export default Film;

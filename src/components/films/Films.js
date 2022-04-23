@@ -6,34 +6,28 @@ import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
 import $ from 'jquery'; 
 
-function Books({userId}){
+function Films({userId}){
 
-    const [books, setBooks] = useState([]);
+    const [films, setFilms] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [countries, setCountries] = useState([]);
-    const [authors, setAuthors] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
 
-    //author form fields 
-    const [first_name, setFirst_name] = useState("");
-    const [last_name, setLast_name] = useState("");
-
-    //book form fields 
+    //film form fields 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [release_year, setRelease_year] = useState("");
     const [language_id, setLanguage_id] = useState("");
-    const [author_id, setAuthor_id] = useState("");
     const [country_id, setCountry_id] = useState("");
-    const [cover, setCover] = useState("");
+    const [poster, setPoster] = useState("");
 
   
 
-    const getBooks = () =>{
-        axios.get(`http://localhost:8080/books/getAllBookInfo`, {withCredentials: true})
+    const getFilms = () =>{
+        axios.get(`http://localhost:8080/films/getAllFilmInfo`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
-            setBooks(response.data);
+            setFilms(response.data);
         }).catch(function(error){
             console.log(error);
         })
@@ -57,42 +51,14 @@ function Books({userId}){
             console.log(error);
         })
     }
-    const getAuthors = () =>{
-        axios.get(`http://localhost:8080/authors/getAllAuthors`, {withCredentials: true})
-        .then(function(response){
-            console.log(response.data);
-            setAuthors(response.data);
-        }).catch(function(error){
-            console.log(error);
-        })
-    }
 
-    useEffect(()=> getBooks(), []);
+    useEffect(()=> getFilms(), []);
     useEffect(()=> getLanguages(), []);
     useEffect(()=> getCountries(), []);
-    useEffect(()=> getAuthors(), []);
 
     //handle submits
-    const addAuthorSubmit = (e)=>{
-        e.preventDefault();
-        console.log({
-            first_name: first_name,
-            last_name: last_name
-        });
-        axios.post("http://localhost:8080/authors/addAuthor", {
-            first_name: first_name,
-            last_name: last_name
-        }).then(function(response){
-            console.log(response);
-            setAuthors([]);
-            getAuthors();
-            document.getElementById('closeAuthorModal').click();
-
-        }).catch(function(error){
-            console.log(error);
-        });
-    };
-    const addBookSubmit = (e)=>{
+    
+    const addFilmSubmit = (e)=>{
         e.preventDefault();
         if(userId != undefined){
             setErrorMsg("");
@@ -101,32 +67,43 @@ function Books({userId}){
                 description: description,
                 release_year: release_year,
                 language_id: language_id,
-                author_id: author_id,
                 user_id: userId,
                 country_id: country_id,
-                cover: cover
+                poster: poster
             });
-            axios.post("http://localhost:8080/books/addBook", {
+            axios.post("http://localhost:8080/films/addFilm", {
                 title: title,
                 description: description,
                 release_year: release_year,
                 language_id: language_id,
-                author_id: author_id,
                 user_id: userId,
                 country_id: country_id,
-                cover: cover
+                poster: poster
             }).then(function(response){
                 console.log(response);
-                setBooks([]);
-                getBooks();
-                document.getElementById('closeBookModal').click();
+                setFilms([]);
+                getFilms();
+                document.getElementById('closeFilmModal').click();
             }).catch(function(error){
                 console.log(error);
             });
         }else if(userId == undefined){
-            setErrorMsg(<small className="text-danger text-center mt-3">Please login to add a book</small>)
+            setErrorMsg(<small className="text-danger text-center mt-3">Please login to add a film</small>)
         }
     };
+
+    function pageIsEmpty(){
+        if(films.length == 0){
+            return (
+            <div className="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-4" align="center">
+                <div className="row justify-content-center mt-4">
+                <p className="lead">Sorry</p>
+                <small>There are no films yet...</small>
+                </div>
+            </div>
+            )
+        }
+    }
     const cardStyle ={height: "300px"};
     const descriptionStyle ={height: "55%"};
     const textareaStyle = {height: "100px"};
@@ -134,39 +111,38 @@ function Books({userId}){
         <div>
         <div className="row justify-content-center">
             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
-                <h4 className="display-6">Books</h4>
-                <small>Explore unique books posted by our users</small>
+                <h4 className="display-6">Films</h4>
+                <small>Explore unique films posted by our users</small>
             </div>
             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
                 <div className="row justify-content-end mt-4">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button className="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addAuthorModal"><AiOutlinePlusCircle className="mb-1"/> Add Author</button>
-                        <button className="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addBookModal"><AiOutlinePlusCircle className="mb-1"/> Add Book</button>
+                        <button className="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#addFilmModal"><AiOutlinePlusCircle className="mb-1"/> Add Film</button>
                     </div>
                 </div> 
             </div>
+            {pageIsEmpty()}
             <div className="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
             <div className="row justify-content-center">
-            {books.map((book, i)=>(
+            {films.map((film, i)=>(
                     <div className="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 mt-3">
                         <div class="card mt-4" style={cardStyle}>
                             <div class="card-body">
                                 <div className="row">
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                        <small className="lead"><Link className="link-dark text-decoration-none fw-bold" to={`/book/${book.id}`}>{book.title}</Link></small>
-                                        <small className="d-block">{book.first_name} {book.last_name}</small>
-                                        <small className="d-block">{book.language}</small>
-                                        <small className="d-block">{book.release_year}</small>
-                                        <small className="d-block"><Link className="link-dark text-decoration-none fw-bold" to={`/country/${book.country_id}`}>{book.country_name}</Link> <img src={book.flag} width="20"/></small>
+                                        <small className="lead"><Link className="link-dark text-decoration-none fw-bold" to={`/film/${film.id}`}>{film.title}</Link></small>
+                                        <small className="d-block">{film.language}</small>
+                                        <small className="d-block">{film.release_year}</small>
+                                        <small className="d-block"><Link className="link-dark text-decoration-none fw-bold" to={`/country/${film.country_id}`}>{film.country_name}</Link> <img src={film.flag} width="20"/></small>
 
                                         {/* <div style={descriptionStyle} className="overflow-scroll">
-                                            <small className="d-block mt-2">{book.description}</small>
+                                            <small className="d-block mt-2">{film.description}</small>
                                         </div> */}
-                                        <small className="d-block">Posted by: <span className="fw-bold"><Link className="link-dark" to={`/profile/${book.userId}`}>{book.username}</Link></span></small>
+                                        <small className="d-block">Posted by: <span className="fw-bold"><Link className="link-dark" to={`/profile/${film.userId}`}>{film.username}</Link></span></small>
 
                                     </div>
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" align="center">
-                                        <img src={book.cover} height="250"  class="w-80 p-2"/>
+                                        <img src={film.poster} height="250"  class="w-80 p-2"/>
                                     </div>
                                 </div>
                                 
@@ -178,42 +154,17 @@ function Books({userId}){
         </div>
         </div>
         <div className="my modals">
-        {/* Add author modal */}
-        <div className="modal fade" tabindex="-1" role="dialog" id="addAuthorModal" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content rounded-5 shadow">
-                    <div className="modal-header p-5 pb-4 border-bottom-0">
-                        <h2 className="fw-bold mb-0"><IoPersonOutline className="mb-2"/> Add Author</h2>
-                        <button type="button" className="btn-close" id="closeAuthorModal" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div className="modal-body p-5 pt-0">
-                        <form className="" onSubmit={addAuthorSubmit}>
-                        <div className="form-floating mb-3">
-                            <input type="text" className="form-control rounded-4" id="floatingInput" placeholder="First name" value={first_name} onChange={(e)=> setFirst_name(e.target.value)}/>
-                            <label for="floatingInput">First name</label>
-                        </div>
-                        <div className="form-floating mb-3">
-                            <input type="text" className="form-control rounded-4" id="floatingInput" placeholder="Last name" value={last_name} onChange={(e)=> setLast_name(e.target.value)}/>
-                            <label for="floatingInput">Last name</label>
-                        </div>
-                        <button className="w-100 mb-2 btn btn-lg rounded-4 btn-dark" type="submit">Save</button>                   
-                        </form>
-                    </div>
-                    </div>
-                </div>
-        </div>
-        {/* Add book modal */}
-        <div className="modal fade" tabindex="-1" role="dialog" id="addBookModal" aria-hidden="true">
+        {/* Add film modal */}
+        <div className="modal fade" tabindex="-1" role="dialog" id="addFilmModal" aria-hidden="true">
                 <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content rounded-5 shadow">
                     <div className="modal-header p-5 pb-4 border-bottom-0">
-                        <h2 className="fw-bold mb-0"><BsBook className="mb-2"/> Add Book</h2>
-                        <button type="button" className="btn-close" id="closeBookModal" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h2 className="fw-bold mb-0"><BsBook className="mb-2"/> Add Film</h2>
+                        <button type="button" className="btn-close" id="closeFilmModal" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <div className="modal-body p-5 pt-0">
-                        <form className="" onSubmit={addBookSubmit}>
+                        <form className="" onSubmit={addFilmSubmit}>
                         <div className="form-floating mb-3">
                             <input type="text" className="form-control rounded-4" id="floatingInput" placeholder="Title" value={title} onChange={(e)=> setTitle(e.target.value)}/>
                             <label for="floatingInput">Title</label>
@@ -235,14 +186,6 @@ function Books({userId}){
                             </select>
                         </div>
                         <div className="form-floating mb-3">
-                            <select defaultValue="Select Author" className="form-select" aria-label="Default select example" value={author_id} onChange={(e)=> setAuthor_id(e.target.value)}>
-                                <option value="Select Author" selected>Select Author</option>
-                                {authors.map((author, i)=>(
-                                <option value={author.id}>{author.first_name} {author.last_name}</option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-floating mb-3">
                             <select defaultValue="Select Country" className="form-select" aria-label="Default select example" value={country_id} onChange={(e)=> setCountry_id(e.target.value)}>
                                 <option value="Select Country" selected>Select Country</option>
                                 {countries.map((country, i)=>(
@@ -251,8 +194,8 @@ function Books({userId}){
                             </select>
                         </div>
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Cover" id="floatingTextarea2" style={textareaStyle} value={cover} onChange={(e)=> setCover(e.target.value)}></textarea>
-                            <label for="floatingTextarea2">Cover Image URL</label>
+                            <textarea class="form-control" placeholder="Cover" id="floatingTextarea2" style={textareaStyle} value={poster} onChange={(e)=> setPoster(e.target.value)}></textarea>
+                            <label for="floatingTextarea2">Poster Image URL</label>
                         </div>
                         {errorMsg}
                         <button className="w-100 mb-2 btn btn-lg rounded-4 btn-dark mt-5" type="submit">Save</button>                   
@@ -265,4 +208,4 @@ function Books({userId}){
         </div>
     )
 }
-export default Books;
+export default Films;

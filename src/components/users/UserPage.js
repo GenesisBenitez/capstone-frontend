@@ -22,7 +22,7 @@ function UserPage(){
     const [banner_img, setBanner_img] = useState("");
 
     const getUser = () =>{
-        axios.get(`http://localhost:8080/users/getUser/${id}`, {withCredentials: true})
+        axios.get(`http://localhost:8080/users/getUserInfo/${id}`, {withCredentials: true})
         .then(function(response){
             console.log(response.data);
             setUser(response.data[0]);

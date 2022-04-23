@@ -13,6 +13,8 @@ import Countries from './components/countries/Countries';
 import Country from './components/countries/Country';
 import Books from './components/books/Books';
 import Book from './components/books/Book';
+import Films from './components/films/Films';
+import Film from './components/films/Film';
 
 function App() {
   const [userId, setUserId] = useState();
@@ -45,6 +47,9 @@ function App() {
             <Route path="/country/:id" element={<Country/>}/>
             <Route path="/books"  element={<Books userId={userId}/>}/>
             <Route path="/book/:id" element={<Book userId={userId}/>}/>
+            <Route path="/films"  element={<Films userId={userId}/>}/>
+            <Route path="/film/:id" element={<Film userId={userId}/>}/>
+
             
           </Routes>
         
