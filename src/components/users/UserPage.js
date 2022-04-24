@@ -1,14 +1,17 @@
 import axios from 'axios';
 import {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {BiWorld} from 'react-icons/bi';
+import {BiPencil, BiWorld} from 'react-icons/bi';
 import {GoLocation} from 'react-icons/go';
 import {FiUser} from 'react-icons/fi';
 import {GrLanguage, GrUserAdmin} from 'react-icons/gr';
 import {GiBlackFlag} from 'react-icons/gi';
-function UserPage(){
-    const {id} = useParams();
+import { BsPencilSquare } from 'react-icons/bs';
+import {AiOutlineUser} from 'react-icons/ai'
 
+function UserPage({userId, avatar}){
+
+    const {id} = useParams();
     const [user, setUser] = useState([]);
     const [languages, setLanguages] = useState([]);
 
@@ -21,6 +24,25 @@ function UserPage(){
     const [capital, setCapital] = useState("");
     const [banner_img, setBanner_img] = useState("");
 
+    //update avatar form field
+    const [updateAvatar, setUpdateAvatar] = useState("");
+
+    //avatars
+    const avatarList = [
+        "https://cdn-icons.flaticon.com/png/512/4440/premium/4440953.png?token=exp=1650768650~hmac=afdc37db61631956b2c029c806c2b674",
+        "https://cdn-icons-png.flaticon.com/512/921/921026.png",
+        "https://cdn-icons.flaticon.com/png/512/3641/premium/3641963.png?token=exp=1650767620~hmac=17f8031db31343673aa1c8cd2924eeec",
+        "https://cdn-icons.flaticon.com/png/512/4532/premium/4532517.png?token=exp=1650767780~hmac=715e9ee0b94e738d483314d4e285302e",
+        "https://cdn-icons-png.flaticon.com/512/4329/4329445.png",
+        "https://cdn-icons.flaticon.com/png/512/3521/premium/3521769.png?token=exp=1650768026~hmac=3e6ff4cf37473b712daff7cc443d09e7",
+        "https://cdn-icons-png.flaticon.com/512/921/921036.png",
+        "https://cdn-icons-png.flaticon.com/512/921/921018.png",
+        "https://cdn-icons.flaticon.com/png/512/4202/premium/4202832.png?token=exp=1650767687~hmac=0f2ded4067ff00f098df00e7b17ab7e4",
+        "https://cdn-icons-png.flaticon.com/512/921/921053.png",
+        "https://cdn-icons.flaticon.com/png/512/4478/premium/4478408.png?token=exp=1650767969~hmac=e6be33e23704ca43f8b43841038623f0",
+        "https://cdn-icons.flaticon.com/png/512/3526/premium/3526844.png?token=exp=1650768003~hmac=b3ad2c124a2cb94435677a8a6a71d1d7"
+
+    ]
     const getUser = () =>{
         axios.get(`http://localhost:8080/users/getUserInfo/${id}`, {withCredentials: true})
         .then(function(response){
@@ -103,8 +125,36 @@ const addCountrySubmit = (e) =>{
     useEffect(()=> getUser(), []);
     useEffect(()=> getLanguages(), []);
 
+    //update submits
+    const updateAvatarSubmit = (e) =>{
+        e.preventDefault();
+      
+        axios.put(`http://localhost:8080/users/updateAvatar/${userId}`, {
+            avatar: updateAvatar
+    
+        },{withCredentials: true}).then(function(response){
+            console.log(response);
+            setUser([]);
+            getUser();
+            document.getElementById("closeUpdateAvatarModal").click();
+            window.location.reload();
+        }).catch(function(error){
+            console.log(error);
+        })
+    }; 
+
+    function showUpdateAvatarIcon(id){
+        if(userId != undefined && userId != null){
+            if(userId == id){
+                return <a type='button' style={editAvatarButton} className='position-absolute text-decoration-none text-secondary' data-bs-toggle="modal" data-bs-target="#updateAvatarModal"><BsPencilSquare/></a>
+
+            }
+        }
+    }
+
     const avatarContainerStyle = {height: "350px"}
     const avatarStyle = {height: "20%", width: "28%"}
+    const editAvatarButton = {zIndex: "1"}
 
     return(
         <div>
@@ -115,23 +165,24 @@ const addCountrySubmit = (e) =>{
                         <div className="row justify-content-center">
                         <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 " >
                             <div className="container rounded-circle mt-4" style={avatarStyle} >
-                                <img src={user.avatar}  className="w-100 mw-80 mh-60 h-60 p-4 rounded-circle"/>
-                            </div>
+                                <img src={user.avatar}  className="w-100 mw-80 mh-60 h-60 p-4 rounded-circle position-relative"/>
+                                    {showUpdateAvatarIcon(user.id)}
+                                </div>
                         </div>
                         <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 " >
                             <p className="lead  text-center">{user.first_name} {user.last_name}</p>  
                             <div className="row justify-content-center">
                                 <div className="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" align="center">
-                                    <small className="lead ">10</small>
-                                    <small className=" d-block">posts</small>
+                                    <small className="lead ">{user.books_posted_count}</small>
+                                    <small className=" d-block">Books posted</small>
                                 </div>
                                 <div className="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" align="center">
-                                    <small className="lead ">20</small>
-                                    <small className=" d-block">likes</small>
+                                    <small className="lead ">{user.films_posted_count}</small>
+                                    <small className=" d-block">Films posted</small>
                                 </div>
                                 <div className="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" align="center">
-                                    <small className="lead ">11</small>
-                                    <small className=" d-block">posts</small>
+                                <small className="lead ">{user.history_posted_count}</small>
+                                    <small className=" d-block">History and events posted</small>
                                 </div>
                             </div>
                         </div>
@@ -142,8 +193,7 @@ const addCountrySubmit = (e) =>{
           {getAdminButtons(user.admin)}
 
             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
-                <small className='blockquote d-block'><BiWorld/>Speaks English</small>
-                <small className='blockquote d-block mt-3'><GoLocation/>From The United States</small>
+                <small className='blockquote d-block mt-3'><BiWorld/> From {user.country_name}</small>
                 <small className='blockquote d-block mt-3'>{getUserRoleIcon(user.admin)} Role: {getUserRole(user.admin)}</small>
             </div>
         </div>
@@ -218,6 +268,38 @@ const addCountrySubmit = (e) =>{
                 
                     <button className="w-100 mb-2 btn btn-lg rounded-4 btn-dark" type="submit">Save</button>
                     
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+
+        </div>
+                {/* UPDATE AVATAR MODAL */}
+                <div className='mymodals'>
+                    <div className="modal" tabindex="-1" role="dialog" id="updateAvatarModal" aria-hidden="true">
+            <div className="modal-dialog modal-xl" role="document">
+                <div className="modal-content rounded-5 shadow">
+                <div className="modal-header p-5 pb-4 border-bottom-0">
+
+                    <h2 className="fw-bold mb-0"><AiOutlineUser/> Update Avatar</h2>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeUpdateAvatarModal"></button>
+                </div>
+
+                <div className="modal-body p-5 pt-0">
+                    <form className="" onSubmit = {updateAvatarSubmit}>
+                    <div onChange={(e)=> setUpdateAvatar(e.target.value)} className="row">
+                        {avatarList.map((avatar, i)=>(
+                            <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 mt-2'>
+                                <div class="form-check">      
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value={avatar} />
+                                    <img src={avatar} width="100" height="100"/>     
+                                </div>
+                            </div>
+                        ))}
+                     
+                    </div> 
+                    <button className="w-100 mb-2 btn btn-lg rounded-4 btn-dark mt-4" type="submit">Save</button>
                     </form>
                 </div>
                 </div>
