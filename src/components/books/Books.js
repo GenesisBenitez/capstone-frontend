@@ -153,7 +153,7 @@ function Books({userId}){
                             <div class="card-body">
                                 <div className="row">
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                        <small className="lead"><Link className="link-dark text-decoration-none fw-bold" to={`/book/${book.id}`}>{book.title}</Link></small>
+                                        <small className="lead"><Link className="link-dark text-decoration-none fw-bold" to={`/book/${book.id}/${userId}`}>{book.title}</Link></small>
                                         <small className="d-block">{book.first_name} {book.last_name}</small>
                                         <small className="d-block">{book.language}</small>
                                         <small className="d-block">{book.release_year}</small>

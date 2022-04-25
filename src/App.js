@@ -26,6 +26,10 @@ function App() {
     axios.get("http://localhost:8080/getLoggedInUser", {withCredentials: true})
       .then((response)=>{
       console.log(response.data);
+      setUserId("");
+      setUsername("");
+      setLoggedIn("");
+      setAvatar("");
       setUserId(response.data.userId);
       setUsername(response.data.username);
       setLoggedIn(response.data.loggedIn);
@@ -42,11 +46,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
-            <Route path="/profile/:id" element={<UserPage userId={userId} avatar={avatar}/>}/>
+            <Route path="/profile/:id" element={<UserPage userId={userId} avatar={avatar} getLoggedInUser={getUser}/>}/>
             <Route path="/countries" element={<Countries/>}/>
             <Route path="/country/:id" element={<Country/>}/>
             <Route path="/books"  element={<Books userId={userId}/>}/>
-            <Route path="/book/:id" element={<Book userId={userId}/>}/>
+            <Route path="/book/:id/:loggedInUserId" element={<Book userId={userId}/>}/>
             <Route path="/films"  element={<Films userId={userId}/>}/>
             <Route path="/film/:id" element={<Film userId={userId}/>}/>
 

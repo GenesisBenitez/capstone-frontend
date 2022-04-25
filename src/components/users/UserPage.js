@@ -9,7 +9,7 @@ import {GiBlackFlag} from 'react-icons/gi';
 import { BsPencilSquare } from 'react-icons/bs';
 import {AiOutlineUser} from 'react-icons/ai'
 
-function UserPage({userId, avatar}){
+function UserPage({userId, getLoggedInUser}){
 
     const {id} = useParams();
     const [user, setUser] = useState([]);
@@ -137,7 +137,7 @@ const addCountrySubmit = (e) =>{
             setUser([]);
             getUser();
             document.getElementById("closeUpdateAvatarModal").click();
-            window.location.reload();
+            getLoggedInUser();
         }).catch(function(error){
             console.log(error);
         })

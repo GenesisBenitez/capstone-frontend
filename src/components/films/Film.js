@@ -164,13 +164,13 @@ function commentsIsEmpty(){
                   
             <div className='col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10'>
                 <div className='row justify-content-center mt-4' >
-                    <div className='col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6 mt-4'>
+                    <div className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 mt-4 order-2 order-sm-2 order-md-1 order-lg-1 order-xl-1'>
                         <small className='lead d-block'>{film.title}</small>
                         <small className='d-block fw-bold'>{film.first_name} {film.last_name}</small>
                         <small className='d-block'>{film.description}</small>
                         <small className='d-block'><GrLanguage/> {film.language}</small>
                     </div>
-                    <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 mt-4 mb-4'>
+                    <div className='col-12 col-sm-8 col-md-4 col-lg-4 col-xl-4 mt-4 mb-4 order-1 order-sm-1 order-md-1 order-lg-1 order-xl-1'>
                         <img src={film.poster} className='w-100 mw-100'/>
                     </div>
                 </div>
