@@ -62,7 +62,7 @@ return(
                 <li><a href="/countries" className="nav-link px-2 link-dark">Countries</a></li>
                 <li><a href="/books" className="nav-link px-2 link-dark">Books</a></li>
                 <li><a href="/films" className="nav-link px-2 link-dark">Film</a></li>
-                <li><a href="/history" className="nav-link px-2 link-dark">History</a></li>
+                <li><a href="/historyTopics" className="nav-link px-2 link-dark">History</a></li>
                 </ul>
 
                 <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">

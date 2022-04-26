@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import {BsBook} from 'react-icons/bs';
+import {BsBook, BsHeartFill} from 'react-icons/bs';
 import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
 import $ from 'jquery'; 
@@ -130,6 +130,15 @@ function Books({userId}){
     const cardStyle ={height: "300px"};
     const descriptionStyle ={height: "55%"};
     const textareaStyle = {height: "100px"};
+
+
+    function isPlural(num){
+        if(num == 1){
+            return "";
+        }else{
+            return "s";
+        }
+    }
     return(
         <div>
         <div className="row justify-content-center">
@@ -153,7 +162,7 @@ function Books({userId}){
                             <div class="card-body">
                                 <div className="row">
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                        <small className="lead"><Link className="link-dark text-decoration-none fw-bold" to={`/book/${book.id}/${userId}`}>{book.title}</Link></small>
+                                        <small className="lead"><Link className="link-dark text-decoration-none fw-bold" to={`/book/${book.id}`}>{book.title}</Link></small>
                                         <small className="d-block">{book.first_name} {book.last_name}</small>
                                         <small className="d-block">{book.language}</small>
                                         <small className="d-block">{book.release_year}</small>
@@ -163,7 +172,7 @@ function Books({userId}){
                                             <small className="d-block mt-2">{book.description}</small>
                                         </div> */}
                                         <small className="d-block">Posted by: <span className="fw-bold"><Link className="link-dark" to={`/profile/${book.userId}`}>{book.username}</Link></span></small>
-
+                                        <small className='d-block'><BsHeartFill className='text-danger'/>{book.total_likes} like{isPlural(book.total_likes)}</small>
                                     </div>
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" align="center">
                                         <img src={book.cover} height="250"  class="w-80 p-2"/>

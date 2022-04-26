@@ -193,6 +193,8 @@ const addCountrySubmit = (e) =>{
           {getAdminButtons(user.admin)}
 
             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
+                <small className='blockquote d-block mt-3'>Bio:</small>
+                <small className='d-block mt-3'>{user.bio}</small>
                 <small className='blockquote d-block mt-3'><BiWorld/> From {user.country_name}</small>
                 <small className='blockquote d-block mt-3'>{getUserRoleIcon(user.admin)} Role: {getUserRole(user.admin)}</small>
             </div>

@@ -10,7 +10,6 @@ import {BiTrash} from 'react-icons/bi';
 import { BsHeartFill } from 'react-icons/bs';
 function Book({userId}){
     const {id} = useParams();
-    const {loggedInUserId} = useParams();
 
     const [book, setBook] = useState([]);
     const [bookComments, setBookComments] = useState([]);
@@ -53,8 +52,8 @@ function Book({userId}){
     }
 
     const getBookLikeByUserId = () =>{
-        if(loggedInUserId !=null && loggedInUserId != undefined){
-        axios.get(`http://localhost:8080/bookLikes/getBookLikeByUserId/${id}/${loggedInUserId}`)
+        if(userId !=null && userId != undefined){
+        axios.get(`http://localhost:8080/bookLikes/getBookLikeByUserId/${id}/${userId}`)
         .then(function(response){
             console.log(response.data);
             if(response.data.length == 0){
@@ -67,10 +66,23 @@ function Book({userId}){
         })
     }
     }
-    useEffect(()=> getBookLikeByUserId(), []);
     useEffect(()=> getBook(), []);
     useEffect(()=> getBookComments(), []);
     useEffect(()=> getBookRatings(), []);
+    useEffect(()=> {
+        if(userId !=null && userId != undefined){
+            axios.get(`http://localhost:8080/bookLikes/getBookLikeByUserId/${id}/${userId}`)
+            .then(function(response){
+                if(response.data.length == 0){
+                    setUserBookLike(response.data);
+                }else{
+                    setUserBookLike(response.data);
+                }
+            }).catch(function(error){
+                console.log(error);
+            })
+        }
+    });
 
     function getLikeButton(){
         if(userId !=null && userId != undefined){

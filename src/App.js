@@ -15,6 +15,8 @@ import Books from './components/books/Books';
 import Book from './components/books/Book';
 import Films from './components/films/Films';
 import Film from './components/films/Film';
+import HistoryTopics from './components/historyTopics/HistoryTopics';
+import HistoryTopic from './components/historyTopics/HistoryTopic';
 
 function App() {
   const [userId, setUserId] = useState();
@@ -50,10 +52,11 @@ function App() {
             <Route path="/countries" element={<Countries/>}/>
             <Route path="/country/:id" element={<Country/>}/>
             <Route path="/books"  element={<Books userId={userId}/>}/>
-            <Route path="/book/:id/:loggedInUserId" element={<Book userId={userId}/>}/>
+            <Route path="/book/:id" element={<Book userId={userId}/>}/>
             <Route path="/films"  element={<Films userId={userId}/>}/>
             <Route path="/film/:id" element={<Film userId={userId}/>}/>
-
+            <Route path="/historyTopics"  element={<HistoryTopics userId={userId}/>}/>
+            <Route path="/historyTopic/:id"  element={<HistoryTopic userId={userId}/>}/>
             
           </Routes>
         
