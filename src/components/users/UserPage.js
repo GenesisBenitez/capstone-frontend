@@ -182,7 +182,7 @@ const addCountrySubmit = (e) =>{
                                 </div>
                                 <div className="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" align="center">
                                 <small className="lead ">{user.history_posted_count}</small>
-                                    <small className=" d-block">History and events posted</small>
+                                    <small className=" d-block">Historical topics</small>
                                 </div>
                             </div>
                         </div>

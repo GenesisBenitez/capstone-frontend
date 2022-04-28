@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
-import { GrLanguage } from 'react-icons/gr';
-import { AiFillStar, AiOutlineHeart, AiOutlinePlusCircle } from 'react-icons/ai';
+import { AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
-import ReactStars from "react-rating-stars-component";
-import StarRatings from 'react-star-ratings';
 import { BiTrash } from 'react-icons/bi';
 import { BsHeartFill } from 'react-icons/bs';
 function HistoryTopic({ userId }) {

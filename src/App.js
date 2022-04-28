@@ -17,6 +17,7 @@ import Films from './components/films/Films';
 import Film from './components/films/Film';
 import HistoryTopics from './components/historyTopics/HistoryTopics';
 import HistoryTopic from './components/historyTopics/HistoryTopic';
+import 'react-multi-carousel/lib/styles.css';
 
 function App() {
   const [userId, setUserId] = useState();

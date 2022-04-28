@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import {BsBook} from 'react-icons/bs';
+import {BsBook, BsHeartFill} from 'react-icons/bs';
 import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
 import $ from 'jquery'; 
@@ -104,6 +104,14 @@ function Films({userId}){
             )
         }
     }
+
+    function isPlural(num){
+        if(num == 1){
+            return "";
+        }else{
+            return "s";
+        }
+    }
     const cardStyle ={height: "300px"};
     const descriptionStyle ={height: "55%"};
     const textareaStyle = {height: "100px"};
@@ -139,7 +147,7 @@ function Films({userId}){
                                             <small className="d-block mt-2">{film.description}</small>
                                         </div> */}
                                         <small className="d-block">Posted by: <span className="fw-bold"><Link className="link-dark" to={`/profile/${film.userId}`}>{film.username}</Link></span></small>
-
+                                        <small className='d-block'><BsHeartFill className='text-danger'/>{film.total_likes} like{isPlural(film.total_likes)}</small>
                                     </div>
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" align="center">
                                         <img src={film.poster} height="250"  class="w-80 p-2"/>
