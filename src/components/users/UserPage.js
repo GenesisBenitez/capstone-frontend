@@ -8,7 +8,6 @@ import {GrLanguage, GrUserAdmin} from 'react-icons/gr';
 import {GiBlackFlag} from 'react-icons/gi';
 import { BsPencilSquare } from 'react-icons/bs';
 import {AiOutlineUser} from 'react-icons/ai'
-
 function UserPage({userId, getLoggedInUser}){
 
     const {id} = useParams();
@@ -29,18 +28,24 @@ function UserPage({userId, getLoggedInUser}){
 
     //avatars
     const avatarList = [
-        "https://cdn-icons.flaticon.com/png/512/4440/premium/4440953.png?token=exp=1650768650~hmac=afdc37db61631956b2c029c806c2b674",
-        "https://cdn-icons-png.flaticon.com/512/921/921026.png",
-        "https://cdn-icons.flaticon.com/png/512/3641/premium/3641963.png?token=exp=1650767620~hmac=17f8031db31343673aa1c8cd2924eeec",
-        "https://cdn-icons.flaticon.com/png/512/4532/premium/4532517.png?token=exp=1650767780~hmac=715e9ee0b94e738d483314d4e285302e",
-        "https://cdn-icons-png.flaticon.com/512/4329/4329445.png",
-        "https://cdn-icons.flaticon.com/png/512/3521/premium/3521769.png?token=exp=1650768026~hmac=3e6ff4cf37473b712daff7cc443d09e7",
-        "https://cdn-icons-png.flaticon.com/512/921/921036.png",
-        "https://cdn-icons-png.flaticon.com/512/921/921018.png",
-        "https://cdn-icons.flaticon.com/png/512/4202/premium/4202832.png?token=exp=1650767687~hmac=0f2ded4067ff00f098df00e7b17ab7e4",
-        "https://cdn-icons-png.flaticon.com/512/921/921053.png",
-        "https://cdn-icons.flaticon.com/png/512/4478/premium/4478408.png?token=exp=1650767969~hmac=e6be33e23704ca43f8b43841038623f0",
-        "https://cdn-icons.flaticon.com/png/512/3526/premium/3526844.png?token=exp=1650768003~hmac=b3ad2c124a2cb94435677a8a6a71d1d7"
+        "/avatars/img1.png",
+        "/avatars/img2.png",
+        "/avatars/img3.png",
+        "/avatars/img4.png",
+        "/avatars/img5.png",
+        "/avatars/img6.png",
+        "/avatars/img7.png",
+        "/avatars/img8.png",
+        "/avatars/img9.png",
+        "/avatars/img10.png",
+        "/avatars/img12.png",
+        "/avatars/img13.png",
+        "/avatars/img14.png",
+        "/avatars/img15.png",
+        "/avatars/img16.png",
+        "/avatars/img17.png",
+        "/avatars/img18.png",
+
 
     ]
     const getUser = () =>{
@@ -151,6 +156,7 @@ const addCountrySubmit = (e) =>{
             }
         }
     }
+
 
     const avatarContainerStyle = {height: "350px"}
     const avatarStyle = {height: "20%", width: "28%"}

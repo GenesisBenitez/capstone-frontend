@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {BsBook, BsHeartFill} from 'react-icons/bs';
 import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
+import {BiFilterAlt} from 'react-icons/bi'
 import $ from 'jquery'; 
 
 function Books({userId}){
@@ -13,6 +14,8 @@ function Books({userId}){
     const [countries, setCountries] = useState([]);
     const [authors, setAuthors] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
+    const [filterMessage, setFilterMessage] = useState("");
+
 
     //author form fields 
     const [first_name, setFirst_name] = useState("");
@@ -139,6 +142,57 @@ function Books({userId}){
             return "s";
         }
     }
+
+    const filterByAuthor = (e)=>{
+        setFilterMessage("");
+        setFilterMessage("");
+
+        if(e.target.value == "reset"){
+            getBooks()
+        }else{
+            let id = parseInt(e.target.value);
+            axios.get(`http://localhost:8080/books/getAllBookInfoByAuthor/${id}`, {withCredentials: true})
+        .then(function(response){
+            console.log(response.data);
+            if(response.data.length == 0){
+                setFilterMessage(
+                    <div className="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 mt-4" align="center">
+                        <small className="mt-4">There are no books for author</small>
+                    </div>
+
+                    )
+            }
+            setBooks(response.data);
+        }).catch(function(error){
+            console.log(error);
+        })
+        }
+    }
+    const filterByCountry = (e)=>{
+        setFilterMessage("");
+        setFilterMessage("");
+
+        if(e.target.value == "reset"){
+            getBooks()
+        }else{
+            let id = parseInt(e.target.value);
+            axios.get(`http://localhost:8080/books/getAllBookInfoByCountry/${id}`, {withCredentials: true})
+        .then(function(response){
+            console.log(response.data);
+            if(response.data.length == 0){
+                setFilterMessage(
+                    <div className="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 mt-4" align="center">
+                        <small className="mt-4">There are no books for this country</small>
+                    </div>
+
+                    )
+            }
+            setBooks(response.data);
+        }).catch(function(error){
+            console.log(error);
+        })
+        }
+    }
     return(
         <div>
         <div className="row justify-content-center">
@@ -154,8 +208,38 @@ function Books({userId}){
                     </div>
                 </div> 
             </div>
+            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                
+                <div className="row justify-content-end mt-4">
+                    <div className='d-grid gap-2 d-flex justify-content-end'>
+                    <small className='mt-2'>Filter <BiFilterAlt/></small>
+                    <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+                    <select onChange={filterByAuthor} class="form-select" aria-label="Default select example">
+                    <option selected>By Author</option>
+                    <option value="reset">All Authors</option>
+                    {authors.map((author, i)=>(
+                                <option value={author.id}>{author.first_name} {author.last_name}</option>
+                                ))}
+                    </select>
+                    </div>
+                    <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+                    <select onChange={filterByCountry} class="form-select" aria-label="Default select example">
+                    <option selected>By Country</option>
+                    <option value="reset">All Countries</option>
+                    {countries.map((country, i)=>(
+                                <option value={country.id}>{country.name}</option>
+                                ))}
+                    </select>
+                    </div>
+                    </div>
+
+                    
+                </div> 
+            </div>
             <div className="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
             <div className="row justify-content-center">
+                {filterMessage}
+            
             {books.map((book, i)=>(
                     <div className="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 mt-3">
                         <div class="card mt-4" style={cardStyle}>
