@@ -62,7 +62,7 @@ function Country(){
           items: 2
         }
       };
-
+const imageStyle = {maxWidth: "160px"}
     return(
         <div className="row justify-content-center">
             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
@@ -70,7 +70,7 @@ function Country(){
                 <small>Explore <span className="fw-bold">{country.name}'s</span> books, films, and history</small>
                 <nav aria-label="breadcrumb mt-4">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/countries" className="text-decoration-none link-dark">Countries</a></li>
+                        <li class="breadcrumb-item"><a href="/" className="text-decoration-none link-dark">Countries</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{country.name}</li>
                     </ol>
                 </nav>
@@ -101,7 +101,7 @@ function Country(){
                     <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
                         <Carousel className='mt-4' responsive={responsive}>
                             {countryFilms.map((countryFilm, i)=>(
-                                <Link to={`/film/${countryFilm.id}`}><img src={countryFilm.poster} height="250"/></Link>
+                                <Link to={`/film/${countryFilm.id}`}><img src={countryFilm.poster} height="250" style={imageStyle}/></Link>
                             ))}
                             
                         </Carousel>

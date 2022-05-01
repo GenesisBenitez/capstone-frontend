@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {BsBook} from 'react-icons/bs';
 import {CgFilm} from 'react-icons/cg';
-import {GiSpellBook, GiBlackBook} from 'react-icons/gi';
+import {GiGreekTemple} from 'react-icons/gi';
 function Countries(){
 
     const [countries, setCountries] = useState([]);
@@ -41,7 +41,7 @@ function Countries(){
                 <small>Explore different country's books, films, history and user posts</small>
                 <div className="row justify-content-center mt-4">
                     {countries.map((country, i)=>(
-                    <div className="col-8 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-3" align="center">
+                    <div className="col-10 col-sm-6 col-md-6 col-lg-4 col-xl-4 mt-3" align="center">
                         <div className="card" style={cardStyle}>
                             <div style={getBannerStyle(country.banner_img)} className="d-flex align-items-end justify-content-center">
                                 <div style={imageContainerStyle} className="d-flex align-items-center justify-content-center">
@@ -67,8 +67,8 @@ function Countries(){
                                             <small className="d-block mt-2">{country.total_films}</small>
                                         </div>
                                         <div className="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"> 
-                                            <GiBlackBook size={20}/>
-                                            <small className="d-block mt-2">{country.total_books}</small>
+                                            <GiGreekTemple size={20}/>
+                                            <small className="d-block mt-2">{country.total_history_topics}</small>
                                         </div>
                                     </div>
                                 </div>

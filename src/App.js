@@ -18,6 +18,7 @@ import Film from './components/films/Film';
 import HistoryTopics from './components/historyTopics/HistoryTopics';
 import HistoryTopic from './components/historyTopics/HistoryTopic';
 import 'react-multi-carousel/lib/styles.css';
+import Register from './components/Register';
 
 function App() {
   const [userId, setUserId] = useState();
@@ -47,10 +48,11 @@ function App() {
       <Router>
           <Nav userId={userId} username={username} loggedIn={loggedIn} avatar={avatar}/>
           <Routes>
-            <Route path="/" element={<Home/>}/>
+            {/* <Route path="/" element={<Home/>}/> */}
             <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
             <Route path="/profile/:id" element={<UserPage userId={userId} avatar={avatar} getLoggedInUser={getUser}/>}/>
-            <Route path="/countries" element={<Countries/>}/>
+            <Route path="/" element={<Countries/>}/>
             <Route path="/country/:id" element={<Country/>}/>
             <Route path="/books"  element={<Books userId={userId}/>}/>
             <Route path="/book/:id" element={<Book userId={userId}/>}/>

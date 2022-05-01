@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {BsBook, BsHeartFill} from 'react-icons/bs';
 import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
+import {BiFilterAlt} from 'react-icons/bi'
 import $ from 'jquery'; 
 
 function Films({userId}){
@@ -12,6 +13,8 @@ function Films({userId}){
     const [languages, setLanguages] = useState([]);
     const [countries, setCountries] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
+    const [filterMessage, setFilterMessage] = useState("");
+
 
     //film form fields 
     const [title, setTitle] = useState("");
@@ -112,6 +115,32 @@ function Films({userId}){
             return "s";
         }
     }
+
+    const filterByCountry = (e)=>{
+        setFilterMessage("");
+        setFilterMessage("");
+
+        if(e.target.value == "reset"){
+            getFilms()
+        }else{
+            let id = parseInt(e.target.value);
+            axios.get(`http://localhost:8080/films/getAllFilmInfoByCountry/${id}`, {withCredentials: true})
+        .then(function(response){
+            console.log(response.data);
+            if(response.data.length == 0){
+                setFilterMessage(
+                    <div className="col-10 col-sm-10 col-md-8 col-lg-6 col-xl-6 mt-4" align="center">
+                        <small className="mt-4">There are no films for this country</small>
+                    </div>
+
+                    )
+            }
+            setFilms(response.data);
+        }).catch(function(error){
+            console.log(error);
+        })
+        }
+    }
     const cardStyle ={height: "300px"};
     const descriptionStyle ={height: "55%"};
     const textareaStyle = {height: "100px"};
@@ -129,7 +158,29 @@ function Films({userId}){
                     </div>
                 </div> 
             </div>
-            {pageIsEmpty()}
+            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                
+                <div className="row justify-content-end mt-4">
+                    <div className='d-grid gap-2 d-flex justify-content-end'>
+                    <small className='mt-2'>Filter <BiFilterAlt/></small>
+                    
+   
+                    <div className='col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4'>
+                    <select onChange={filterByCountry} class="form-select" aria-label="Default select example">
+                    <option selected>By Country</option>
+                    <option value="reset">All Countries</option>
+                    {countries.map((country, i)=>(
+                                <option value={country.id}>{country.name}</option>
+                                ))}
+                    </select>
+                    </div>
+                   
+</div>
+                    
+                </div> 
+            </div>
+            {/* {pageIsEmpty()} */}
+            {filterMessage}
             <div className="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
             <div className="row justify-content-center">
             {films.map((film, i)=>(

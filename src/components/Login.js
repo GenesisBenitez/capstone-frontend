@@ -1,6 +1,5 @@
 import {useState} from 'react';
-import {SiGoogleearth} from 'react-icons/si';
-import {GiBlackFlag} from 'react-icons/gi';
+import {FcGlobe} from 'react-icons/fc';
 import axios from 'axios';
 
 function Login(){
@@ -27,7 +26,7 @@ function Login(){
     return(
         <div className="row justify-content-center mt-5" style={loginFormStyle}>
             <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4 border" align="center">
-                <GiBlackFlag size={25} className="mt-4" style={worldIcon}/>
+                <FcGlobe size={25} className="mt-4" style={worldIcon}/>
                 <h4 className="lead mt-4">Sign In</h4>
                 <small>to continue </small>
                 Other<span className='main-logo fw-bold'>world</span>ly
@@ -48,6 +47,7 @@ function Login(){
                             </div>
                             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-4" align="center">
                                 <button type='submit' className='btn btn-outline-dark btn-block'>Login</button>
+                                <small className='d-block mt-3'>Don't have an account? <a href="/register">Register</a></small>
                             </div>
                         </div>
                     </form>
