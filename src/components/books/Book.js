@@ -2,15 +2,18 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link, useParams} from 'react-router-dom';
 import {GrLanguage} from 'react-icons/gr';
-import {AiFillStar, AiOutlineHeart, AiOutlinePlusCircle} from 'react-icons/ai';
+import {AiOutlineHeart} from 'react-icons/ai';
 import {FaRegComment} from 'react-icons/fa';
 import ReactStars from "react-rating-stars-component";
 import StarRatings from 'react-star-ratings';
 import {BiTrash} from 'react-icons/bi';
 import { BsHeartFill } from 'react-icons/bs';
+import { useSnackbar } from 'material-ui-snackbar-provider'
+
+
 function Book({userId}){
     const {id} = useParams();
-
+    const snackbar = useSnackbar()
     const [book, setBook] = useState([]);
     const [bookComments, setBookComments] = useState([]);
     const [bookRatings, setBookRatings] = useState([]);
@@ -170,12 +173,6 @@ function Book({userId}){
         e.preventDefault();
         if(userId != undefined){
         setErrorMsg("");
-        console.log({
-            user_id: userId,
-            book_id: id,
-            rating: rating,
-            comment: comment
-        });
         axios.post("http://localhost:8080/bookComments/addBookComment", {
             user_id: userId,
             book_id: id,
@@ -187,8 +184,8 @@ function Book({userId}){
             getBookRatings();
             setBookComments([]);
             getBookComments();
-
             document.getElementById('closeBookCommentModal').click();
+            snackbar.showMessage("Comment successfully posted")
 
         }).catch(function(error){
             console.log(error);
@@ -211,6 +208,7 @@ function Book({userId}){
                getBookComments();
                setBookRatings([]);
                getBookRatings();
+               snackbar.showMessage("Comment successfully deleted")
            })
            .catch(function(error){
                console.log(error);
@@ -335,7 +333,7 @@ function commentsIsEmpty(){
                                 <img src={bookComment.avatar} height="30" width="30" className="rounded-circle"/>
                             </div>
                             <div className="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
-                                <p className="fw-bold d-inline">{bookComment.username} </p>
+                                <p className="fw-bold d-inline"><Link to={`/profile/${bookComment.userId}`} className="text-decoration-none text-dark">{bookComment.username} </Link></p>
                                 <small className="px-2">{convertTime(bookComment.created_at)}</small>
                                 <div className="d-block">
                                 <StarRatings

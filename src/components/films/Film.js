@@ -2,16 +2,17 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link, useParams} from 'react-router-dom';
 import {GrLanguage} from 'react-icons/gr';
-import {AiFillStar, AiOutlinePlusCircle,AiOutlineHeart} from 'react-icons/ai';
+import {AiOutlineHeart} from 'react-icons/ai';
 import {FaRegComment} from 'react-icons/fa';
 import ReactStars from "react-rating-stars-component";
 import StarRatings from 'react-star-ratings';
 import {BiTrash} from 'react-icons/bi';
 import { BsHeartFill } from 'react-icons/bs';
+import { useSnackbar } from 'material-ui-snackbar-provider'
 
 function Film({userId}){
     const {id} = useParams();
-
+    const snackbar = useSnackbar()
     const [film, setFilm] = useState([]);
     const [filmComments, setFilmComments] = useState([]);
     const [filmRatings, setFilmRatings] = useState([]);
@@ -173,12 +174,7 @@ function Film({userId}){
         e.preventDefault();
         if(userId != undefined){
         setErrorMsg("");
-        console.log({
-            user_id: userId,
-            film_id: id,
-            rating: rating,
-            comment: comment
-        });
+
         axios.post("http://localhost:8080/filmComments/addFilmComment", {
             user_id: userId,
             film_id: id,
@@ -190,8 +186,8 @@ function Film({userId}){
             getFilmRatings();
             setFilmComments([]);
             getFilmComments();
-
             document.getElementById('closeFilmCommentModal').click();
+            snackbar.showMessage("Comment successfully posted!")
 
         }).catch(function(error){
             console.log(error);
@@ -214,6 +210,8 @@ function Film({userId}){
                getFilmComments();
                setFilmRatings([]);
                getFilmRatings();
+               snackbar.showMessage("Comment successfully deleted!")
+
            })
            .catch(function(error){
                console.log(error);
@@ -258,7 +256,6 @@ function commentsIsEmpty(){
                 <div className="row justify-content-center mt-4">
                     <div className="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mt-4 order-2 order-sm-2 order-md-1 order-lg-1 order-xl-1">
                         <small className="lead d-block">{film.title}</small>
-                        <small className="d-block fw-bold">{film.first_name} {film.last_name}</small>
                         <small className="d-block">{film.first_name} {film.description}</small>
                         <small className="d-blockmt-4"><GrLanguage/> {film.language}</small>
                     </div>
@@ -336,7 +333,7 @@ function commentsIsEmpty(){
                                 <img src={filmComment.avatar} height="30" width="30" className="rounded-circle"/>
                             </div>
                             <div className="col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
-                                <p className="fw-bold d-inline">{filmComment.username} </p>
+                                <p className="fw-bold d-inline"><Link to={`/profile/${filmComment.userId}`} className="text-decoration-none text-dark">{filmComment.username} </Link></p>
                                 <small className="px-2">{convertTime(filmComment.created_at)}</small>
                                 <div className="d-block">
                                 <StarRatings

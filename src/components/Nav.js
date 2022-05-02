@@ -6,7 +6,7 @@ import {useState, useEffect} from 'react';
 
 function Nav({userId, username, loggedIn, avatar}){
 
-const userIconStyle = {color: "orange", width:"25px", height:"25px"};
+const userIconStyle = {color: "black", width:"25px", height:"25px"};
 const worldIcon = {color: "orange"};
 
 
@@ -60,7 +60,7 @@ return(
                 <li><a href="/" className="nav-link px-2 link-dark">Countries</a></li>
                 <li><a href="/books" className="nav-link px-2 link-dark">Books</a></li>
                 <li><a href="/films" className="nav-link px-2 link-dark">Film</a></li>
-                <li><a href="/historyTopics" className="nav-link px-2 link-dark">History</a></li>
+                <li><a href="/historyTopics" className="nav-link px-2 link-dark">History Topics</a></li>
                 </ul>
 {/* 
                 <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">

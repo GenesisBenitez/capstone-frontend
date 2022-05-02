@@ -1,8 +1,10 @@
 import {useState} from 'react';
 import {FcGlobe} from 'react-icons/fc';
 import axios from 'axios';
+import { useSnackbar } from 'material-ui-snackbar-provider'
 
 function Login(){
+    const snackbar = useSnackbar()
     const loginFormStyle= {height:"500px"};
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -15,14 +17,17 @@ function Login(){
         },  {withCredentials: true})
         .then(function(response){
             console.log(response.data.user);
+            snackbar.showMessage("Successfully logged in!")
             window.location = "/";
         }).catch(function(error){
             console.log(error);
+            snackbar.showMessage("Invalid username and password")
+
         })
     
     }
 
-    const worldIcon = {color: "orange"};
+    const worldIcon = {color: "black"};
     return(
         <div className="row justify-content-center mt-5" style={loginFormStyle}>
             <div className="col-10 col-sm-8 col-md-5 col-lg-5 col-xl-4 border" align="center">

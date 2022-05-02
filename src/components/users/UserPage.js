@@ -7,7 +7,11 @@ import {GrLanguage, GrUserAdmin} from 'react-icons/gr';
 import {GiBlackFlag} from 'react-icons/gi';
 import { BsPencilSquare } from 'react-icons/bs';
 import {AiOutlineUser} from 'react-icons/ai'
+import { useSnackbar } from 'material-ui-snackbar-provider'
+
+
 function UserPage({userId, getLoggedInUser}){
+    const snackbar = useSnackbar()
 
     const {id} = useParams();
     const [user, setUser] = useState([]);
@@ -165,6 +169,7 @@ const addLanguageSubmit = (e) =>{
         setLanguages([]);
         getLanguages();
         document.getElementById("closeAddLanguageModal").click();
+        snackbar.showMessage("Language successfully added!")
     }).catch(function(error){
         console.log(error);
     })
@@ -183,6 +188,8 @@ const addCountrySubmit = (e) =>{
     }).then(function(response){
         console.log(response);
         document.getElementById("closeAddCountryModal").click();
+        snackbar.showMessage("Country successfully added!")
+
     }).catch(function(error){
         console.log(error);
     })
@@ -206,6 +213,8 @@ const updateProfileSubmit = (e) =>{
         setUser([]);
         getUser();
         document.getElementById("closeUpdateUserModal").click();
+        snackbar.showMessage("Profile successfully updated!")
+
     }).catch(function(error){
         console.log(error);
     })
@@ -230,6 +239,8 @@ const updateProfileSubmit = (e) =>{
             setUser([]);
             getUser();
             document.getElementById("closeUpdateAvatarModal").click();
+            snackbar.showMessage("Avatar successfully updated!")
+
             getLoggedInUser();
         }).catch(function(error){
             console.log(error);
@@ -247,8 +258,8 @@ const updateProfileSubmit = (e) =>{
     function showEditProfileButton(id){
         if(userId != undefined && userId != null){
             if(userId == id){
-                return <div className='container'>
-                <button className='btn btn-outline-dark position-relative float-end' data-bs-toggle="modal" data-bs-target="#updateUserModal">Edit Profile</button>
+                return <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 ">
+                <button className='btn btn-outline-dark float-end' data-bs-toggle="modal" data-bs-target="#updateUserModal">Edit Profile</button>
                 </div>
 
             }
@@ -265,9 +276,11 @@ const updateProfileSubmit = (e) =>{
         <div>
         <div className="row justify-content-center">
             <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <div className="row">
+                <div className="row justify-content-center">
+                {showEditProfileButton(user.id)}
+
                     <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 " style={avatarContainerStyle}>
-                        <div className="row justify-content-center position-absolute">
+                        <div className="row justify-content-center ">
                         <div className="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-7 " >
                             <div className="container rounded-circle mt-4" style={avatarStyle} >
                                 <img src={user.avatar}  className="w-100 mw-80 mh-60 h-60 p-4 rounded-circle position-relative"/>
@@ -287,12 +300,11 @@ const updateProfileSubmit = (e) =>{
                                 </div>
                                 <div className="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" align="center">
                                 <small className="lead ">{historyPostCount.history_posted_count}</small>
-                                    <small className=" d-block">Historical topics</small>
+                                    <small className=" d-block">Historical topics posted</small>
                                 </div>
                             </div>
                         </div>
                         </div>
-                        {showEditProfileButton(user.id)}
 
                     </div>
                 </div>

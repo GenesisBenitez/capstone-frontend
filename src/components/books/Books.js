@@ -5,10 +5,10 @@ import {BsBook, BsHeartFill} from 'react-icons/bs';
 import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
 import {BiFilterAlt} from 'react-icons/bi'
-import $ from 'jquery'; 
+import { useSnackbar } from 'material-ui-snackbar-provider'
 
 function Books({userId}){
-
+    const snackbar = useSnackbar()
     const [books, setBooks] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [countries, setCountries] = useState([]);
@@ -87,6 +87,7 @@ function Books({userId}){
             last_name: last_name
         }).then(function(response){
             console.log(response);
+            snackbar.showMessage("Author successfully added!")
             setAuthors([]);
             getAuthors();
             document.getElementById('closeAuthorModal').click();
@@ -99,16 +100,6 @@ function Books({userId}){
         e.preventDefault();
         if(userId != undefined){
             setErrorMsg("");
-            console.log({
-                title: title,
-                description: description,
-                release_year: release_year,
-                language_id: language_id,
-                author_id: author_id,
-                user_id: userId,
-                country_id: country_id,
-                cover: cover
-            });
             axios.post("http://localhost:8080/books/addBook", {
                 title: title,
                 description: description,
@@ -123,6 +114,7 @@ function Books({userId}){
                 setBooks([]);
                 getBooks();
                 document.getElementById('closeBookModal').click();
+                snackbar.showMessage("Books successfully added")
             }).catch(function(error){
                 console.log(error);
             });
@@ -218,7 +210,7 @@ function Books({userId}){
                     <option selected>By Author</option>
                     <option value="reset">All Authors</option>
                     {authors.map((author, i)=>(
-                                <option value={author.id}>{author.first_name} {author.last_name}</option>
+                                <option value={author.id}>{author.last_name}, {author.first_name} </option>
                                 ))}
                     </select>
                     </div>
@@ -256,7 +248,7 @@ function Books({userId}){
                                             <small className="d-block mt-2">{book.description}</small>
                                         </div> */}
                                         <small className="d-block">Posted by: <span className="fw-bold"><Link className="link-dark" to={`/profile/${book.userId}`}>{book.username}</Link></span></small>
-                                        <small className='d-block'><BsHeartFill className='text-danger'/>{book.total_likes} like{isPlural(book.total_likes)}</small>
+                                        <small className='d-block'><BsHeartFill className='text-danger'/> {book.total_likes} like{isPlural(book.total_likes)}</small>
                                     </div>
                                     <div className="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" align="center">
                                         <img src={book.cover} height="250"  class="w-80 p-2"/>
@@ -331,7 +323,7 @@ function Books({userId}){
                             <select defaultValue="Select Author" className="form-select" aria-label="Default select example" value={author_id} onChange={(e)=> setAuthor_id(e.target.value)}>
                                 <option value="Select Author" selected>Select Author</option>
                                 {authors.map((author, i)=>(
-                                <option value={author.id}>{author.first_name} {author.last_name}</option>
+                                <option value={author.id}>{author.last_name}, {author.first_name} </option>
                                 ))}
                             </select>
                         </div>

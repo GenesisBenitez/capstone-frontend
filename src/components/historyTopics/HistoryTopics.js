@@ -2,16 +2,17 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {BsBook, BsHeartFill, BsThreeDots} from 'react-icons/bs';
-import {IoPersonOutline} from 'react-icons/io5';
 import {AiOutlinePlusCircle} from 'react-icons/ai';
-import $ from 'jquery'; 
+import { useSnackbar } from 'material-ui-snackbar-provider'
+import { FcSearch } from 'react-icons/fc';
+
 
 function HistoryTopics({userId}){
-
+    const snackbar = useSnackbar()
     const [historyTopics, setHistoryTopics] = useState([]);
     const [countries, setCountries] = useState([]);
     const [errorMsg, setErrorMsg] = useState("");
-
+    const [keyword, setKeyword] = useState("");
 
     //history topics form fields 
     const [name, setName] = useState("");
@@ -48,12 +49,7 @@ function HistoryTopics({userId}){
         e.preventDefault();
         if(userId != undefined){
             setErrorMsg("");
-            console.log({
-                name: name,
-                description: description,
-                user_id: userId,
-                country_id: country_id
-            });
+
             axios.post("http://localhost:8080/historyTopics/addHistoryTopic", {
                 name: name,
                 description: description,
@@ -64,6 +60,8 @@ function HistoryTopics({userId}){
                 setHistoryTopics([]);
                 getHistoryTopics();
                 document.getElementById('closeHistoryTopicModal').click();
+                snackbar.showMessage("Topic successfully added!")
+
             }).catch(function(error){
                 console.log(error);
             });
@@ -71,6 +69,7 @@ function HistoryTopics({userId}){
             setErrorMsg(<small className="text-danger text-center mt-3">Please login to add a historical topic</small>)
         }
     };
+
     const cardStyle ={height: "300px"};
     const descriptionStyle ={height: "100px", textOverflow: "ellipsis", overflow:"hidden"};
     const textareaStyle = {height: "100px"};
@@ -98,6 +97,29 @@ function HistoryTopics({userId}){
                     </div>
                 </div> 
             </div>
+            
+            <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-4">
+            <div className="row">
+            <div className="col-12 col-sm-10 col-md-12 col-lg-8 col-xl-6">
+                        <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search Historical Topics..." aria-label="Recipient's username" aria-describedby="basic-addon2" onChange={(e)=> {
+                            
+                            axios.post(`http://localhost:8080/historyTopics/getAllHistoryTopicInfoSearch`, {
+                                keyword:e.target.value
+                            })
+                            .then(function(response){
+                                console.log(response);
+                                setHistoryTopics(response.data);
+                            }).catch(function(error){
+                                console.log(error);
+                            });
+                    
+                        }}/>
+                        <button type='submit' class="input-group-text" disabled><FcSearch size={25}/></button>
+                        </div>
+                    </div>
+                </div>
+                </div>
             <div className="col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-3">
             <div className="row justify-content-center">
             {historyTopics.map((historyTopic, i)=>(
@@ -111,7 +133,7 @@ function HistoryTopics({userId}){
                                         <Link to={`/historyTopic/${historyTopic.id}`} className="text-decoration-none text-dark"><BsThreeDots/></Link>
                                         <small className="d-block mt-4"><Link className="link-dark text-decoration-none fw-bold" to={`/country/${historyTopic.country_id}`}>{historyTopic.country_name}</Link> <img src={historyTopic.flag} width="20"/></small>
                                         <small className="d-block">Posted by: <span className="fw-bold"><Link className="link-dark" to={`/profile/${historyTopic.userId}`}>{historyTopic.username}</Link></span></small>
-                                        <small className='d-block'><BsHeartFill className='text-danger'/>{historyTopic.total_likes} like{isPlural(historyTopic.total_likes)}</small>
+                                        <small className='d-block'><BsHeartFill className='text-danger'/> {historyTopic.total_likes} like{isPlural(historyTopic.total_likes)}</small>
                                     </div>
 
                                 </div>

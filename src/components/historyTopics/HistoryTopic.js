@@ -5,9 +5,11 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import { BiTrash } from 'react-icons/bi';
 import { BsHeartFill } from 'react-icons/bs';
+import { useSnackbar } from 'material-ui-snackbar-provider'
+
 function HistoryTopic({ userId }) {
     const { id } = useParams();
-
+    const snackbar = useSnackbar()
     const [historyTopic, setHistoryTopic] = useState([]);
     const [historyTopicComments, setHistoryTopicComments] = useState([]);
     const [historyTopicLike, setHistoryTopicLike] = useState([]);
@@ -149,22 +151,16 @@ function HistoryTopic({ userId }) {
         e.preventDefault();
         if (userId != undefined) {
             setErrorMsg("");
-            console.log({
-                user_id: userId,
-                history_topic_id: id,
-                comment: comment
-            });
+
             axios.post("http://localhost:8080/historyTopicComments/addHistoryTopicComment", {
                 user_id: userId,
                 history_topic_id: id,
                 comment: comment
             }).then(function (response) {
                 console.log(response);
-  
-
                 setHistoryTopicComments([]);
                 getHistoryTopicComments();
-
+                snackbar.showMessage("Comment successfully posted!")
                 document.getElementById('closeHistoryTopicCommentModal').click();
 
             }).catch(function (error) {
@@ -186,6 +182,7 @@ function HistoryTopic({ userId }) {
                                 console.log(response);
                                 setHistoryTopicComments([]);
                                 getHistoryTopicComments();
+                                snackbar.showMessage("Comment successfully deleted!")
 
                             })
                             .catch(function (error) {
@@ -241,6 +238,7 @@ function HistoryTopic({ userId }) {
 
                     </div>
                 </div>
+               
                 <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-4">
                     <div className="row justify-content-end mt-4">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">

@@ -84,7 +84,7 @@ function Login(){
         "/avatars/img18.png",
     ]
 
-    const worldIcon = {color: "orange"};
+    const worldIcon = {color: "black"};
 
     const imgStyle = {width: "50px", height: "50px"}
     const textareaStyle = {height: "100px"};
@@ -165,7 +165,7 @@ function Login(){
                                 </div>
                                 </div>
                             <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10 mt-4" align="center">
-                                <button type='submit' className='btn btn-outline-dark btn-block'>Login</button>
+                                <button type='submit' className='btn btn-outline-dark btn-block'>Register</button>
                                 <small className='d-block mt-3'>Already have an account? <a href="/login">Login</a></small>
 
                             </div>
